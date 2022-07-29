@@ -15,4 +15,4 @@ jobs:
 #          cache: gradle
 
       - name: test
-        run: curl -o "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
+        run: curl -i "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
