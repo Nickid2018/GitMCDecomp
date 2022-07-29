@@ -1,7 +1,6 @@
 package io.github.nickid2018.mcde;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.zip.ZipFile;
 
 public class MCRemapper {
