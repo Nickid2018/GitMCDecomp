@@ -36,5 +36,5 @@ jobs:
       - name: Download Minecraft version manifest
         run: curl -o "$GITHUB_WORKSPACE/version.json" "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
 
-#      - name: Check Minecraft version
-#        run:
+      - name: Check Minecraft version
+        run: java -cp "$GITHUB_WORKSPACE/build/libs/gitmc.jar" io.github.nickid2018.gitmc.TestHello $GITHUB_WORKSPACE
