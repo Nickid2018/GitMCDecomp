@@ -1,7 +1,7 @@
 name: listen-mc-decompile
 on: push
 jobs:
-  build:
+  listen:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -33,43 +33,15 @@ jobs:
           chmod +x gradlew
           ./gradlew clean shadowJar -s
 
-      - name: Archive Built JAR
-        uses: actions/upload-artifact@v3
-        with:
-          name: built-jar
-          path: build/libs/gitmc.jar
+      - name: Check Minecraft version
+        run: java -cp build/libs/gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
 
-  listen:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: temurin
-          java-version: 17
-          cache: gradle
-
-      - name: Download built jar
-        uses: actions/download-artifact@v3
-        with:
-          name: built-jar
-          path: gitmc.jar
-
-#      - name: Check Minecraft version
-#        run: |
-#          chmod +rwx gitmc.jar
-#          java -cp gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
-#
-#      - name: Run output shell
-#        run: |
-#          chmod +x output.sh
-#          output.sh
+      - name: Run output shell
+        run: |
+          chmod +x output.sh
+          output.sh
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
-        run: java -cp gitmc.jar org.benf.cfr.reader.Main --slient true --outputdir decompiled --comments false remapped.jar
+        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --slient true --outputdir decompiled --comments false remapped.jar
 
