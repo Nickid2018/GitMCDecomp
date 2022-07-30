@@ -8,25 +8,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
-
-      - name: Cache .gradle/caches
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Cache .gradle/wrapper
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle-wrapper-
 
       - name: Run Gradle
         run: |
@@ -47,7 +33,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ secrets.DESTINATION }}
-          branch: version
+          ref: version
           ssh-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           path: version
 
@@ -75,11 +61,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ secrets.DESTINATION }}
-          branch: ${{ env.branch_from }}
+          ref: ${{ env.branch_from }}
           ssh-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           path: write
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
-        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir decompiled --comments false remapped.jar
+        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write --comments false remapped.jar
 
