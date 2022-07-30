@@ -1,0 +1,29 @@
+name: listen-mc-decompile
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: write A
+        run: echo "testA" >> test/a.txt
+
+      - name: push A
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: git@github.com:Nickid2018/MC-Source-File.git
+          BRANCH: master
+          FOLDER: test
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          CLEAR_GLOBS_FILE: ".clear-target-files"
+
+      - name: write B
+        run: echo "testB" >> test/b.txt
+
+      - name: push B
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: git@github.com:Nickid2018/MC-Source-File.git
+          BRANCH: masterB
+          FOLDER: test
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          CLEAR_GLOBS_FILE: ".clear-target-files"
