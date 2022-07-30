@@ -60,7 +60,9 @@ jobs:
           path: gitmc.jar
 
       - name: Check Minecraft version
-        run: java -cp "$GITHUB_WORKSPACE/gitmc.jar" io.github.nickid2018.gitmc.CheckMinecraft
+        run: |
+          chmod +rwx gitmc.jar
+          java -cp gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
 
       - name: Run output shell
         run: |
@@ -69,5 +71,5 @@ jobs:
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
-        run: java -cp "$GITHUB_WORKSPACE/gitmc.jar" org.benf.cfr.reader.Main --slient true --outputdir decompiled --comments false remapped.jar
+        run: java -cp gitmc.jar org.benf.cfr.reader.Main --slient true --outputdir decompiled --comments false remapped.jar
 
