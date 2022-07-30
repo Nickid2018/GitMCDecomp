@@ -49,7 +49,7 @@ public class CheckMinecraft {
     private static void initSelectorMap() throws IOException {
         JsonObject object = JsonParser.parseString(IOUtils.toString(
                 new InputStreamReader(Objects.requireNonNull(
-                        CheckMinecraft.class.getResourceAsStream("version_branches.json"))))).getAsJsonObject();
+                        CheckMinecraft.class.getResourceAsStream("/version_branches.json"))))).getAsJsonObject();
         JsonArray branches = object.getAsJsonArray("branches");
         branches.forEach(branch -> {
             String name = branch.getAsString();
