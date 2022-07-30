@@ -18,4 +18,8 @@ dependencies {
 
 jar {
     archiveName 'gitmc.jar'
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
