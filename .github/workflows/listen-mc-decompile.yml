@@ -38,8 +38,8 @@ jobs:
 
       - name: Run output shell
         run: |
-          chmod +x output.sh
-          output.sh
+          chmod +x $GITHUB_WORKSPACE/output.sh
+          $GITHUB_WORKSPACE/output.sh
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
