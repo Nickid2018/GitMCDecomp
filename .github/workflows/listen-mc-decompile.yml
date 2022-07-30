@@ -59,7 +59,7 @@ jobs:
           name: built-jar
 
       - name: Check Minecraft version
-        run: java -cp build/libs/gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
+        run: java -verbose:class -cp build/libs/gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
 
       - name: Run output shell
         run: |
