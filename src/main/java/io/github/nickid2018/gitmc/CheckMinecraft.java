@@ -24,7 +24,7 @@ public class CheckMinecraft {
     private static final List<String> supportVersions = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        initVersions(args[0] + "/version.json");
+        initVersions();
         initSelectorMap();
         MinecraftVersion pair = select("");
 
@@ -42,8 +42,9 @@ public class CheckMinecraft {
         writer.close();
     }
 
-    private static void initVersions(String path) throws IOException {
-        versionManifest = JsonParser.parseReader(new FileReader(path)).getAsJsonObject();
+    private static void initVersions() throws IOException {
+        versionManifest = JsonParser.parseReader(new InputStreamReader(
+                new URL("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json").openStream())).getAsJsonObject();
         versionManifest.getAsJsonArray("versions").forEach(
                 e -> supportVersions.add(e.getAsJsonObject().get("id").getAsString()));
     }

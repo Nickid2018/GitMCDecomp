@@ -33,9 +33,14 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean shadowJar -s
 
-      - name: Download Minecraft version manifest
-        run: curl -o "$GITHUB_WORKSPACE/version.json" "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
-
       - name: Check Minecraft version
-        run: java -cp "$GITHUB_WORKSPACE/build/libs/gitmc.jar" io.github.nickid2018.gitmc.CheckMinecraft $GITHUB_WORKSPACE
+        run: java -cp "$GITHUB_WORKSPACE/build/libs/gitmc.jar" io.github.nickid2018.gitmc.CheckMinecraft
 
+      - name: Run output shell
+        run: output.sh
+
+#      - name: Decompile Minecraft file
+#        if: ${{ env.fail != true }}
+
+      - name: Test ENV
+        run: echo $version
