@@ -37,7 +37,7 @@ jobs:
         run: java -cp "$GITHUB_WORKSPACE/build/libs/gitmc.jar" io.github.nickid2018.gitmc.CheckMinecraft
 
       - name: Run output shell
-        run: output.sh
+        run: $GITHUB_WORKSPACE/output.sh
 
 #      - name: Decompile Minecraft file
 #        if: ${{ env.fail != true }}
