@@ -1,0 +1,27 @@
+{
+  "branches": [
+    "master",
+    "20w14infinite",
+    "1.16.5",
+    "22w13oneblockatatime"
+  ],
+  "master": {
+    "type": "main",
+    "version_start": "1.14.4"
+  },
+  "20w14infinite": {
+    "type": "hang",
+    "base": "20w13b",
+    "versions": ["20w14infinite"]
+  },
+  "1.16.5": {
+    "type": "hang",
+    "base": "1.16.4",
+    "versions": ["1.16.5-rc1", "1.16.5"]
+  },
+  "22w13oneblockatatime": {
+    "type": "hang",
+    "base": "1.18.2",
+    "versions": ["22w13oneblockatatime"]
+  }
+}
