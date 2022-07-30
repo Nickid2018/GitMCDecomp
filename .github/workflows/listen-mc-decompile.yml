@@ -56,7 +56,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: gradle
 
       - name: Download Artifact
         uses: actions/download-artifact@v3
