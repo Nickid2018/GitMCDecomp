@@ -25,11 +25,13 @@ public class CheckMinecraft {
     public static void main(String[] args) throws IOException {
         initVersions(args[0] + "/version.json");
         initSelectorMap();
+        System.out.println(select(""));
     }
 
     private static void initVersions(String path) throws IOException {
         versionManifest = JsonParser.parseReader(new FileReader(path)).getAsJsonObject();
-        supportVersions.addAll(versionManifest.keySet());
+        versionManifest.getAsJsonArray("versions").forEach(
+                e -> supportVersions.add(e.getAsJsonObject().get("id").getAsString()));
     }
 
     private static void initSelectorMap() throws IOException {
