@@ -14,34 +14,20 @@ jobs:
           java-version: 17
           cache: gradle
 
-      - name: Cache .gradle/caches
-        uses: actions/cache@v1
+      - name: Download a built jar
+        uses: actions/download-artifact@v3
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Cache .gradle/wrapper
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle-wrapper-
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew clean shadowJar -s
+          name: built-jar
 
       - name: Check Minecraft version
-        run: java -cp "$GITHUB_WORKSPACE/build/libs/gitmc.jar" io.github.nickid2018.gitmc.CheckMinecraft
+        run: java -cp build/libs/gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
 
       - name: Run output shell
         run: |
-          chmod +x $GITHUB_WORKSPACE/output.sh
-          $GITHUB_WORKSPACE/output.sh
+          chmod +x output.sh
+          output.sh
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
-        run: java -cp "$GITHUB_WORKSPACE/build/libs/gitmc.jar" org.benf.cfr.reader.Main --outputdir $GITHUB_WORKSPACE/decompiled --comments false "$GITHUB_WORKSPACE/remapped.jar"
+        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --slient true --outputdir decompiled --comments false remapped.jar
 
