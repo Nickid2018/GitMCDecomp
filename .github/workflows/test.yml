@@ -1,11 +1,14 @@
-name: listen-mc-decompile
+name: test push
 on: push
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Create dir
+        run: mkdir test
+
       - name: write A
-        run: echo "testA" >> test/a.txt
+        run: echo "testA" > test/a.txt
 
       - name: push A
         uses: s0/git-publish-subdir-action@develop
@@ -17,7 +20,7 @@ jobs:
           CLEAR_GLOBS_FILE: ".clear-target-files"
 
       - name: write B
-        run: echo "testB" >> test/b.txt
+        run: echo "testB" > test/b.txt
 
       - name: push B
         uses: s0/git-publish-subdir-action@develop
