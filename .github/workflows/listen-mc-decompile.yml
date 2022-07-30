@@ -59,15 +59,15 @@ jobs:
           name: built-jar
           path: gitmc.jar
 
-      - name: Check Minecraft version
-        run: |
-          chmod +rwx gitmc.jar
-          java -cp gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
-
-      - name: Run output shell
-        run: |
-          chmod +x output.sh
-          output.sh
+#      - name: Check Minecraft version
+#        run: |
+#          chmod +rwx gitmc.jar
+#          java -cp gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
+#
+#      - name: Run output shell
+#        run: |
+#          chmod +x output.sh
+#          output.sh
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
