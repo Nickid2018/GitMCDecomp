@@ -23,13 +23,14 @@ public class CheckMinecraft {
     public static void main(String[] args) throws IOException {
         initVersions();
         initSelectorMap();
-        MinecraftVersion pair = select("");
+        VersionControlTag pair = select();
 
         String version = pair.version();
 
         StringBuilder sb = new StringBuilder();
         if (processRemap(version)) {
-            sb.append("echo \"branch=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"branch_read=").append(pair.fromBranch()).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"version=").append(version).append("\" >> $GITHUB_ENV\n");
         } else
             sb.append("echo \"fail=true\" >> $GITHUB_ENV\n");
@@ -63,29 +64,34 @@ public class CheckMinecraft {
         });
     }
 
-    private static MinecraftVersion select(String path) throws IOException {
+    private static VersionControlTag select() throws IOException {
         VersionSelector selector;
 
-        File file = new File(path);
+        File file = new File("version/version_store.json");
         JsonObject lastSuccess = null;
+        String sourceBranch = null;
 
         if (file.exists()) {
-            lastSuccess = JsonParser.parseReader(new FileReader(path)).getAsJsonObject();
+            lastSuccess = JsonParser.parseReader(new FileReader("version/version_store.json")).getAsJsonObject();
             String lastVersion = lastSuccess.get("last_version").getAsString();
 
-            if (versionMap.containsKey(lastVersion))
+            if (versionMap.containsKey(lastVersion)) {
+                sourceBranch = "master";
                 selector = versionMap.get(lastVersion);
-            else {
+            } else {
                 String branch = lastSuccess.get("branch").getAsString();
+                sourceBranch = branch;
                 selector = selectorMap.get(branch);
             }
         } else selector = mainSelector;
 
         String version = selector.nextVersion(supportVersions, lastSuccess);
-        if (version == null && selector != mainSelector)
+        if (version == null && selector != mainSelector) {
             version = (selector = mainSelector).nextVersion(supportVersions, lastSuccess);
+            sourceBranch = "master";
+        }
 
-        return new MinecraftVersion(selector.branch, version);
+        return new VersionControlTag(sourceBranch, selector.branch, version);
     }
 
     private static boolean processRemap(String version) {

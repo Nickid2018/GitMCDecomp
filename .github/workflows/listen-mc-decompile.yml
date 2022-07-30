@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Java
         uses: actions/setup-java@v2
@@ -15,14 +15,14 @@ jobs:
           cache: gradle
 
       - name: Cache .gradle/caches
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Cache .gradle/wrapper
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
@@ -43,8 +43,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+      - name: Check out Version Branch
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.DESTINATION }}
+          branch: version
+          ssh-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          path: version
 
       - name: Set up Java
         uses: actions/setup-java@v2
@@ -66,6 +71,14 @@ jobs:
         run: |
           chmod +x $GITHUB_WORKSPACE/output.sh
           $GITHUB_WORKSPACE/output.sh
+
+      - name: Check out Write Branch
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.DESTINATION }}
+          branch: ${{ env.branch_from }}
+          ssh-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          path: write
 
       - name: Decompile Minecraft file
         if: ${{ env.fail != true }}
