@@ -9,10 +9,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.ZipFile;
 
 public class CheckMinecraft {
@@ -51,7 +48,8 @@ public class CheckMinecraft {
 
     private static void initSelectorMap() throws IOException {
         JsonObject object = JsonParser.parseString(IOUtils.toString(
-                new FileReader("version_branches.json"))).getAsJsonObject();
+                new InputStreamReader(Objects.requireNonNull(
+                        CheckMinecraft.class.getResourceAsStream("version_branches.json"))))).getAsJsonObject();
         JsonArray branches = object.getAsJsonArray("branches");
         branches.forEach(branch -> {
             String name = branch.getAsString();
