@@ -6,7 +6,6 @@ import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +24,8 @@ public class CheckMinecraft {
     public static void main(String[] args) throws IOException {
         initVersions(args[0] + "/version.json");
         initSelectorMap();
-        System.out.println(select(""));
+        StringPair pair = select("");
+        System.out.println(System.getenv());
     }
 
     private static void initVersions(String path) throws IOException {
@@ -50,8 +50,8 @@ public class CheckMinecraft {
         });
     }
 
-    private static String select(String path) throws IOException {
-        VersionSelector selector = null;
+    private static StringPair select(String path) throws IOException {
+        VersionSelector selector;
 
         File file = new File(path);
         JsonObject lastSuccess = null;
@@ -70,8 +70,8 @@ public class CheckMinecraft {
 
         String version = selector.nextVersion(supportVersions, lastSuccess);
         if (version == null && selector != mainSelector)
-            version = mainSelector.nextVersion(supportVersions, lastSuccess);
+            version = (selector = mainSelector).nextVersion(supportVersions, lastSuccess);
 
-        return version;
+        return new StringPair(selector.branch, version);
     }
 }
