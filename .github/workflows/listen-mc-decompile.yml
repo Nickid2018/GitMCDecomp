@@ -83,6 +83,7 @@ jobs:
           cd version
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          git add .
           git commit -m ${{ env.version }} -a
           
       - name: Push version store file
