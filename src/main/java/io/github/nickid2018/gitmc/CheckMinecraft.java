@@ -23,15 +23,22 @@ public class CheckMinecraft {
     public static void main(String[] args) throws IOException {
         initVersions();
         initSelectorMap();
-        VersionControlTag pair = select();
 
-        String version = pair.version();
-
+        VersionControlTag pair = null;
         StringBuilder sb = new StringBuilder();
-        if (processRemap(version)) {
+        FailCause failCause = new FailCause(false, true);
+
+        while (failCause.noMapping()) {
+            pair = select();
+            String version = pair.version();
+            failCause = processRemap(version);
+        }
+
+        if (!failCause.latest()) {
             sb.append("echo \"branch_read=").append(pair.fromBranch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
-            sb.append("echo \"version=").append(version).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
         } else
             sb.append("echo \"fail=true\" >> $GITHUB_ENV\n");
 
@@ -46,7 +53,7 @@ public class CheckMinecraft {
         versionManifest.getAsJsonArray("versions").forEach(
                 e -> {
                     JsonObject object = e.getAsJsonObject();
-                    if (object.has("client_mappings"))
+                    if (object.get("downloads").getAsJsonObject().has("client_mappings"))
                         supportVersions.add(object.get("id").getAsString());
                 });
     }
@@ -105,9 +112,9 @@ public class CheckMinecraft {
         return new VersionControlTag(sourceBranch, selector.branch, version);
     }
 
-    private static boolean processRemap(String version) {
+    private static FailCause processRemap(String version) {
         if (version == null)
-            return false;
+            return new FailCause(true, false);
 
         String url = null;
         for (JsonElement element : versionManifest.getAsJsonArray("versions")) {
@@ -119,7 +126,7 @@ public class CheckMinecraft {
         }
 
         if (url == null)
-            return false;
+            return new FailCause(true, false);
 
         try {
             JsonObject versionData = JsonParser.parseReader(
@@ -136,10 +143,9 @@ public class CheckMinecraft {
                 FileProcessor.process(file, new File("mapping.txt"), new File("remapped.jar"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            return new FailCause(false, true);
         }
 
-        return true;
+        return new FailCause(false, false);
     }
 }

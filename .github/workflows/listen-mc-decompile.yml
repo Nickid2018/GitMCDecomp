@@ -58,14 +58,14 @@ jobs:
           $GITHUB_WORKSPACE/output.sh
 
       - name: Upload Remapped JAR
-        if: env.fail != true
+        if: env.fail == false
         uses: actions/upload-artifact@v3
         with:
           name: remapped-jar
           path: remapped.jar
 
       - name: Check out Write Branch
-        if: env.fail != true
+        if: env.fail == false
         uses: actions/checkout@v3
         with:
           repository: ${{ secrets.DESTINATION }}
@@ -74,11 +74,11 @@ jobs:
           path: write
 
       - name: Decompile Minecraft file
-        if: env.fail != true
+        if: env.fail == false
         run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write --comments false remapped.jar
 
       - name: Commit version store file
-        if: env.fail != true
+        if: env.fail == false
         run: |
           echo ${{ env.version }} has been decompiled, now update version store json.
           cd version
@@ -89,7 +89,7 @@ jobs:
           cd ..
           
       - name: Push version store file
-        if: env.fail != true
+        if: env.fail == false
         uses: ad-m/github-push-action@master
         with:
           repository: ${{ secrets.DESTINATION }}
