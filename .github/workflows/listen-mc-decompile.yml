@@ -73,9 +73,42 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           path: write
 
+      - name: Clean old version files
+        if: env.fail == 'false'
+        run: |
+          cd write
+          rm -rf net com
+          cd ..
+
       - name: Decompile Minecraft file
         if: env.fail == 'false'
         run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write --comments false remapped.jar
+
+      - name: Switch Branch
+        if: env.branch_read != env.branch_write
+        run: |
+          cd write
+          git checkout -b ${{ env.branch_write }}
+          cd ..
+
+      - name: Commit new version files
+        if: env.fail == 'false'
+        run: |
+          cd write
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m ${{ env.version }} -a
+          cd ..
+
+      - name: Push new version files
+        if: env.fail == 'false'
+          uses: ad-m/github-push-action@master
+          with:
+            repository: ${{ secrets.DESTINATION }}
+            ssh: true
+            branch: ${{ env.branch_write }}
+            directory: write
 
       - name: Commit version store file
         if: env.fail == 'false'
