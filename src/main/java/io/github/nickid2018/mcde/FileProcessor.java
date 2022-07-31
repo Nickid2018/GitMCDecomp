@@ -80,7 +80,7 @@ public class FileProcessor {
             ClassWriter writer = new ClassWriter(0);
             String className = ASMRemapper.toBinaryName(entry.getName());
             className = className.substring(0, className.length() - 6);
-            reader.accept(new ClassRemapper(writer, remapper), 0);
+            reader.accept(new ClassRemapperFix(writer, remapper), 0);
             remappedData.put(ASMRemapper.toInternalName(format.remaps.get(className).mapName()) + ".class",
                     writer.toByteArray());
         }
