@@ -91,6 +91,13 @@ public class CheckMinecraft {
             sourceBranch = "master";
         }
 
+        FileWriter writer = new FileWriter(file);
+        JsonObject store = new JsonObject();
+        store.addProperty("last_version", version);
+        store.addProperty("branch", selector.branch);
+        writer.write(store.toString());
+        writer.close();
+
         return new VersionControlTag(sourceBranch, selector.branch, version);
     }
 

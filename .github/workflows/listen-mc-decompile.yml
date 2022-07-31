@@ -77,3 +77,17 @@ jobs:
         if: ${{ env.fail != true }}
         run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write --comments false remapped.jar
 
+      - name: Commit version store file
+        if: ${{ env.fail != true }}
+        run: |
+          cd version
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m ${{ env.version }} -a
+          
+      - name: Push version store file
+        if: ${{ env.fail != true }}
+        uses: ad-m/github-push-action@master
+        with:
+          ssh: true
+          branch: version
