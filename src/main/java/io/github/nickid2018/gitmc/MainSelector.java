@@ -18,6 +18,9 @@ public class MainSelector extends VersionSelector {
         if (storedLast != null) {
             String lastVersion = storedLast.get("last_version").getAsString();
             int find = supportVersions.indexOf(lastVersion);
+            int low = supportVersions.indexOf(startVersion);
+            if (low < find)
+                return startVersion;
             return find > 0 ? supportVersions.get(find - 1) : null;
         } else return startVersion;
     }
