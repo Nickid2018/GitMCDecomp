@@ -103,7 +103,7 @@ jobs:
 
       - name: Push new version files
         if: env.fail == 'false'
-          uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@master
           with:
             repository: ${{ secrets.DESTINATION }}
             ssh: true
