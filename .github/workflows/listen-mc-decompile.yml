@@ -104,11 +104,11 @@ jobs:
       - name: Push new version files
         if: env.fail == 'false'
         uses: ad-m/github-push-action@master
-          with:
-            repository: ${{ secrets.DESTINATION }}
-            ssh: true
-            branch: ${{ env.branch_write }}
-            directory: write
+        with:
+          repository: ${{ secrets.DESTINATION }}
+          ssh: true
+          branch: ${{ env.branch_write }}
+          directory: write
 
       - name: Commit version store file
         if: env.fail == 'false'
