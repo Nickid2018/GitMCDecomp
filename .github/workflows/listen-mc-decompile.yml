@@ -85,11 +85,13 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add .
           git commit -m ${{ env.version }} -a
+          cd ..
           
       - name: Push version store file
         if: ${{ env.fail != true }}
         uses: ad-m/github-push-action@master
         with:
+          repository: ${{ secrets.DESTINATION }}
           ssh: true
           branch: version
           directory: version
