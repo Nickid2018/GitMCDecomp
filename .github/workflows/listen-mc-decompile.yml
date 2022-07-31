@@ -2,7 +2,7 @@ name: listen-mc-decompile
 on:
   push:
   schedule:
-    - cron: '0/6 * * * *'
+    - cron: '0,6,12,18,24,30,36,42,48,54 * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
