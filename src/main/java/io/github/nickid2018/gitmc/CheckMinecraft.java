@@ -44,7 +44,11 @@ public class CheckMinecraft {
         versionManifest = JsonParser.parseReader(new InputStreamReader(
                 new URL("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json").openStream())).getAsJsonObject();
         versionManifest.getAsJsonArray("versions").forEach(
-                e -> supportVersions.add(e.getAsJsonObject().get("id").getAsString()));
+                e -> {
+                    JsonObject object = e.getAsJsonObject();
+                    if (object.has("client_mappings"))
+                        supportVersions.add(object.get("id").getAsString());
+                });
     }
 
     private static void initSelectorMap() throws IOException {
@@ -69,7 +73,7 @@ public class CheckMinecraft {
 
         File file = new File("version/version_store.json");
         JsonObject lastSuccess = null;
-        String sourceBranch = null;
+        String sourceBranch = "master";
 
         if (file.exists()) {
             lastSuccess = JsonParser.parseReader(new FileReader("version/version_store.json")).getAsJsonObject();
