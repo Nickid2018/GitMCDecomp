@@ -13,6 +13,6 @@ public class MethodRemapperFix extends MethodRemapper {
 
     @Override
     public void visitLocalVariable(String name, String descriptor, String signature, Label start, Label end, int index) {
-        super.visitLocalVariable(null, descriptor, signature, start, end, index);
+        super.visitLocalVariable(name.replace("\u2603", "$$"), descriptor, signature, start, end, index);
     }
 }

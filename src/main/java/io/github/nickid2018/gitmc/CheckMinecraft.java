@@ -135,6 +135,11 @@ public class CheckMinecraft {
                     new InputStreamReader(new URL(url).openStream())).getAsJsonObject();
             JsonObject downloads = versionData.getAsJsonObject("downloads");
 
+            if (!downloads.has("client_mappings")) {
+                System.out.println(version + " has no mappings, skipped.");
+                return new FailCause(false, true);
+            }
+
             String clientURL = downloads.getAsJsonObject("client").get("url").getAsString();
             String mappingURL = downloads.getAsJsonObject("client_mappings").get("url").getAsString();
 
@@ -145,8 +150,9 @@ public class CheckMinecraft {
                 FileProcessor.process(file, new File("mapping.txt"), new File("remapped.jar"));
             }
         } catch (Exception e) {
-            System.out.println("Remap " + version + " failed: no mappings");
-            return new FailCause(false, true);
+            System.out.println("Remap " + version + " failed");
+            e.printStackTrace();
+            return new FailCause(false, false);
         }
 
         return new FailCause(false, false);
