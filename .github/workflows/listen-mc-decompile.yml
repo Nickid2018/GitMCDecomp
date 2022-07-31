@@ -19,7 +19,7 @@ jobs:
           chmod +x gradlew
           ./gradlew clean shadowJar -s
 
-      - name: Upload Artifact
+      - name: Upload Built JAR
         uses: actions/upload-artifact@v3
         with:
           name: built-jar
@@ -43,7 +43,7 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Download Artifact
+      - name: Download Built JAR
         uses: actions/download-artifact@v3
         with:
           name: built-jar
@@ -57,7 +57,15 @@ jobs:
           chmod +x $GITHUB_WORKSPACE/output.sh
           $GITHUB_WORKSPACE/output.sh
 
+      - name: Upload Remapped JAR
+        if: ${{ env.fail != true }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: remapped-jar
+          path: remapped.jar
+
       - name: Check out Write Branch
+        if: ${{ env.fail != true }}
         uses: actions/checkout@v3
         with:
           repository: ${{ secrets.DESTINATION }}
