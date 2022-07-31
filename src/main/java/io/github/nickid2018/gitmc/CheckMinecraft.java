@@ -53,8 +53,7 @@ public class CheckMinecraft {
         versionManifest.getAsJsonArray("versions").forEach(
                 e -> {
                     JsonObject object = e.getAsJsonObject();
-                    if (object.get("downloads").getAsJsonObject().has("client_mappings"))
-                        supportVersions.add(object.get("id").getAsString());
+                    supportVersions.add(object.get("id").getAsString());
                 });
     }
 
