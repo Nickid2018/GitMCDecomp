@@ -39,8 +39,10 @@ public class CheckMinecraft {
             sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
-        } else
+        } else {
             sb.append("echo \"fail=true\" >> $GITHUB_ENV\n");
+            System.out.println("Minecraft version is latest");
+        }
 
         FileWriter writer = new FileWriter("output.sh");
         writer.write(sb.toString());
@@ -128,6 +130,7 @@ public class CheckMinecraft {
             return new FailCause(true, false);
 
         try {
+            System.out.println("Start remapping " + version);
             JsonObject versionData = JsonParser.parseReader(
                     new InputStreamReader(new URL(url).openStream())).getAsJsonObject();
             JsonObject downloads = versionData.getAsJsonObject("downloads");
@@ -142,6 +145,7 @@ public class CheckMinecraft {
                 FileProcessor.process(file, new File("mapping.txt"), new File("remapped.jar"));
             }
         } catch (Exception e) {
+            System.out.println("Remap " + version + " failed: no mappings");
             return new FailCause(false, true);
         }
 
