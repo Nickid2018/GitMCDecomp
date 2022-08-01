@@ -17,12 +17,11 @@ public class HangSelector extends VersionSelector {
     }
 
     @Override
-    public String nextVersion(List<String> supportVersions, JsonObject storedLast) {
-        if (storedLast != null) {
-            String last = storedLast.get("last_version").getAsString();
-            if (last.equals(base))
+    public String nextVersion(List<String> supportVersions, String lastSuccessVersion) {
+        if (lastSuccessVersion != null) {
+            if (lastSuccessVersion.equals(base))
                 return versions.get(0);
-            int find = versions.indexOf(last);
+            int find = versions.indexOf(lastSuccessVersion);
             return find >= versions.size() - 1 ? null : versions.get(find + 1);
         } else return base;
     }

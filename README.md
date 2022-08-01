@@ -10,8 +10,6 @@
 
 A GitHub Action can generate Minecraft source files and put them into your repository.
 
----
-
 ## How to use it...
 
 ### Fork repository and configure secrets

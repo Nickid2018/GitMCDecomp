@@ -14,10 +14,9 @@ public class MainSelector extends VersionSelector {
     }
 
     @Override
-    public String nextVersion(List<String> supportVersions, JsonObject storedLast) {
-        if (storedLast != null) {
-            String lastVersion = storedLast.get("last_version").getAsString();
-            int find = supportVersions.indexOf(lastVersion);
+    public String nextVersion(List<String> supportVersions, String lastSuccessVersion) {
+        if (lastSuccessVersion != null) {
+            int find = supportVersions.indexOf(lastSuccessVersion);
             int low = supportVersions.indexOf(startVersion);
             if (low < find)
                 return startVersion;

@@ -80,16 +80,16 @@ public class CheckMinecraft {
         VersionSelector selector;
 
         File file = new File("version/version_store.json");
-        JsonObject lastSuccess = null;
+        String lastSuccessVersion = null;
         String sourceBranch = "master";
 
         if (file.exists()) {
-            lastSuccess = JsonParser.parseReader(new FileReader("version/version_store.json")).getAsJsonObject();
-            String lastVersion = lastSuccess.get("last_version").getAsString();
+            JsonObject lastSuccess = JsonParser.parseReader(new FileReader("version/version_store.json")).getAsJsonObject();
+            lastSuccessVersion = lastSuccess.get("last_version").getAsString();
 
-            if (versionMap.containsKey(lastVersion)) {
+            if (versionMap.containsKey(lastSuccessVersion)) {
                 sourceBranch = "master";
-                selector = versionMap.get(lastVersion);
+                selector = versionMap.get(lastSuccessVersion);
             } else {
                 String branch = lastSuccess.get("branch").getAsString();
                 sourceBranch = branch;
@@ -97,9 +97,10 @@ public class CheckMinecraft {
             }
         } else selector = mainSelector;
 
-        String version = selector.nextVersion(supportVersions, lastSuccess);
+        String version = selector.nextVersion(supportVersions, lastSuccessVersion);
         if (version == null && selector != mainSelector) {
-            version = (selector = mainSelector).nextVersion(supportVersions, lastSuccess);
+            lastSuccessVersion = selector.startUse();
+            version = (selector = mainSelector).nextVersion(supportVersions, lastSuccessVersion);
             sourceBranch = "master";
         }
 

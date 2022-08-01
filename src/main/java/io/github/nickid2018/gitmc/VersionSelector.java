@@ -12,7 +12,7 @@ public abstract class VersionSelector {
         this.branch = branch;
     }
 
-    public abstract String nextVersion(List<String> supportVersions, JsonObject storedLast);
+    public abstract String nextVersion(List<String> supportVersions, String lastSuccessVersion);
 
     public abstract String startUse();
 
