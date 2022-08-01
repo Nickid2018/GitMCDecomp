@@ -13,7 +13,9 @@ public class MethodRemapperFix extends MethodRemapper {
 
     @Override
     public void visitLocalVariable(String name, String descriptor, String signature, Label start, Label end, int index) {
-        String nameReplaced = name.replace("\u2603", "var").replace("$$", "var");
+        String nameReplaced = name.replace("\u2603", "var")
+                .replace("$$", "var")
+                .replace("â˜ƒ", "var");
         super.visitLocalVariable(nameReplaced.equals("var") ? "var0" : nameReplaced, descriptor, signature, start, end, index);
     }
 }
