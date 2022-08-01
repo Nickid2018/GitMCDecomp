@@ -34,3 +34,7 @@ on:
   schedule:
     - cron: '0/5 * * * *'
 ```
+
+### Create for all Minecraft versions once
+
+See [diauweb/GitMCDecomp](https://github.com/diauweb/GitMCDecomp).
