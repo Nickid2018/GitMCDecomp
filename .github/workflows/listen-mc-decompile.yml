@@ -57,10 +57,8 @@ jobs:
           path: build/libs
 
       - name: Check Minecraft version
-        run: java -cp build/libs/gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
-
-      - name: Run output shell
         run: |
+          java -cp build/libs/gitmc.jar io.github.nickid2018.gitmc.CheckMinecraft
           chmod +x $GITHUB_WORKSPACE/output.sh
           $GITHUB_WORKSPACE/output.sh
 
