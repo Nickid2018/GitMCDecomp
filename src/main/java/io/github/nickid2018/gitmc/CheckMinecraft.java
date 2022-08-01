@@ -73,6 +73,7 @@ public class CheckMinecraft {
                 mainSelector = main;
             selectorMap.put(name, selector);
             versionMap.put(selector.startUse(), selector);
+            supportVersions.removeAll(Arrays.asList(selector.versionToDelete()));
         });
     }
 

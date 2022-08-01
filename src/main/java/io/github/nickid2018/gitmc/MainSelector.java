@@ -28,4 +28,9 @@ public class MainSelector extends VersionSelector {
     public String startUse() {
         return startVersion;
     }
+
+    @Override
+    public String[] versionToDelete() {
+        return new String[0];
+    }
 }

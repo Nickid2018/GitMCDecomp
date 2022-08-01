@@ -30,4 +30,9 @@ public class HangSelector extends VersionSelector {
     public String startUse() {
         return base;
     }
+
+    @Override
+    public String[] versionToDelete() {
+        return versions.toArray(String[]::new);
+    }
 }

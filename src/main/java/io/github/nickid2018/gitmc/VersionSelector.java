@@ -16,6 +16,8 @@ public abstract class VersionSelector {
 
     public abstract String startUse();
 
+    public abstract String[] versionToDelete();
+
     public static VersionSelector create(String type, String branch, JsonObject data) {
         return switch (type) {
             case "main" -> new MainSelector(branch, data);
