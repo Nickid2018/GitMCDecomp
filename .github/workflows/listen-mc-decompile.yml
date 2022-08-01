@@ -1,6 +1,8 @@
 name: listen-mc-decompile
 on:
   push:
+    paths-ignore:
+      - 'README.md'
   workflow_dispatch:
 
 #  If you don't have any server, use this
