@@ -1,8 +1,12 @@
 name: listen-mc-decompile
 on:
   push:
-  schedule:
-    - cron: '0/5 * * * *'
+  workflow_dispatch:
+
+#  If you don't have any server, use this
+#  schedule:
+#    - cron: '0/5 * * * *'
+
 jobs:
   build:
     runs-on: ubuntu-latest
