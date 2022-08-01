@@ -5,6 +5,9 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/Nickid2018/GitMCDecomp)
 ![GitHub repo file count](https://img.shields.io/github/directory-file-count/Nickid2018/GitMCDecomp)
 
+![GitHub Repo stars](https://img.shields.io/github/stars/Nickid2018/GitMCDecomp?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Nickid2018/GitMCDecomp?style=social)
+
 A GitHub Action can generate Minecraft source files and put them into your repository.
 
 ---
