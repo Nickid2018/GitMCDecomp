@@ -1,11 +1,13 @@
 name: listen-mc-decompile
 on:
   push:
-    paths-ignore:
-      - 'README.md'
+    paths:
+      - 'src/**'
+      - '.github/**'
+      - '**.gradle'
   workflow_dispatch:
 
-#  If you don't have any server, use this
+#  If you can't post workflow_dispatch event, use this
 #  schedule:
 #    - cron: '0/5 * * * *'
 
