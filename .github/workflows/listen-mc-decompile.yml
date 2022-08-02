@@ -138,3 +138,15 @@ jobs:
           ssh: true
           branch: version
           directory: version
+
+      - name: Summary Output (Success)
+        if: env.fail == 'false'
+        run: |
+          echo "### Decompile Success" >> $GITHUB_STEP_SUMMARY
+          echo "Decompile a new Minecraft version **${{ env.version }}**" >> $GITHUB_STEP_SUMMARY
+          echo "Branch to write: ${{ env.branch_write }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Summary Output (Fail)
+        if: env.fail == 'true'
+        run: |
+          echo "### Minecraft version is latest!" >> $GITHUB_STEP_SUMMARY

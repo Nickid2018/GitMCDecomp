@@ -1,7 +1,7 @@
 # GitMCDecomp
 
 ![GitHub](https://img.shields.io/github/license/Nickid2018/GitMCDecomp)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Nickid2018/GitMCDecomp/listen-mc-decompile)
+![workflow](https://github.com/Nickid2018/GitMCDecomp/actions/workflows/listen-mc-decompile.yml/badge.svg)
 ![GitHub top language](https://img.shields.io/github/languages/top/Nickid2018/GitMCDecomp)
 ![GitHub repo file count](https://img.shields.io/github/directory-file-count/Nickid2018/GitMCDecomp)
 
