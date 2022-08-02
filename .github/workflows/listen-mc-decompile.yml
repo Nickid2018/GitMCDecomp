@@ -144,6 +144,7 @@ jobs:
         run: |
           echo "### Decompile Success" >> $GITHUB_STEP_SUMMARY
           echo "Decompile a new Minecraft version **${{ env.version }}**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "Branch to write: ${{ env.branch_write }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Summary Output (Fail)
