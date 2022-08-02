@@ -149,4 +149,4 @@ jobs:
       - name: Summary Output (Fail)
         if: env.fail == 'true'
         run: |
-          echo "### Minecraft version is latest!" >> $GITHUB_STEP_SUMMARY
+          echo "### Minecraft version (${{ env.version }}) is latest!" >> $GITHUB_STEP_SUMMARY

@@ -40,6 +40,7 @@ public class CheckMinecraft {
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
         } else {
+            sb.append("echo \"version=").append(pair.lastSuccess()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=true\" >> $GITHUB_ENV\n");
             System.out.println("Minecraft version is latest");
         }
@@ -112,7 +113,7 @@ public class CheckMinecraft {
         writer.write(store.toString());
         writer.close();
 
-        return new VersionControlTag(sourceBranch, selector.branch, version);
+        return new VersionControlTag(sourceBranch, selector.branch, version, lastSuccessVersion);
     }
 
     private static FailCause processRemap(String version) {
