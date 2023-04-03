@@ -3,7 +3,8 @@
     "master",
     "20w14infinite",
     "1.16.5",
-    "22w13oneblockatatime"
+    "22w13oneblockatatime",
+    "23w13a_or_b"
   ],
   "master": {
     "type": "main",
@@ -23,5 +24,10 @@
     "type": "hang",
     "base": "1.18.2",
     "versions": ["22w13oneblockatatime"]
+  },
+  "23w13a_or_b": {
+    "type": "hang",
+    "base": "23w13a",
+    "versions": ["23w13a_or_b"]
   }
 }

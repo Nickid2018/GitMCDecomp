@@ -4,12 +4,12 @@ import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.commons.ClassRemapper;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,7 +92,7 @@ public class FileProcessor {
     }
 
     public static void runPack(File dest, Map<String, byte[]> map) throws IOException {
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(dest));
+        ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(dest.toPath()));
         for (String entry : map.keySet()) {
             ZipEntry zipEntry = new ZipEntry(entry);
             zos.putNextEntry(zipEntry);
