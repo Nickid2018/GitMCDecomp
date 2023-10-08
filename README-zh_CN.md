@@ -10,16 +10,17 @@
 
 [English](README.md) | 中文
 
-自动生成Minecraft反编译源码并写入Git仓库的GitHub Action。
+自动生成 Minecraft 反编译源码并写入 Git 仓库的 GitHub Action。
 
 ## 如何使用
 
 ### Fork此仓库并配置机密数据
 
-首先将本仓库fork到你的仓库（下面简称执行仓库），
+首先将本仓库 fork 到你的仓库（下面简称执行仓库），
 并且创建一个**私有**库用于存放Minecraft的源码和历史（简称存放仓库）。
+存放仓库必须拥有`master`和`version`分支。
 
-为存放仓库生成Deploy Key，将私钥作为机密数据`DEPLOY_PRIVATE_KEY`存入执行仓库中。
+为存放仓库生成 Deploy Key，将私钥作为机密数据`DEPLOY_PRIVATE_KEY`存入执行仓库中。
 
 最后，将存放仓库的完整名称作为机密数据`DESTINATION`存入执行仓库之中。
 

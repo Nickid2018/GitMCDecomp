@@ -17,7 +17,7 @@ A GitHub Action can generate Minecraft source files and put them into your repos
 ### Fork repository and configure secrets
 
 Fork this repository (Action Repository), and create a **private** repository to store
-Minecraft source files (Store Repository).
+Minecraft source files (Store Repository) with a **master** and a **version** branch.
 
 Then, generate a deploy key for your Store Repository, and write the private key as
 a secret called `DEPLOY_PRIVATE_KEY` in Action Repository.
