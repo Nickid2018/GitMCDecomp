@@ -13,14 +13,17 @@ import java.util.*;
 import java.util.zip.ZipFile;
 
 public class CheckMinecraft {
-
     private static MainSelector mainSelector;
     private static final Map<String, VersionSelector> selectorMap = new HashMap<>();
     private static final Map<String, VersionSelector> versionMap = new HashMap<>();
     private static JsonObject versionManifest;
+    private static JsonObject versionData;
     private static final List<String> supportVersions = new ArrayList<>();
+    public static final Properties CONFIG = new Properties();
 
     public static void main(String[] args) throws IOException {
+        CONFIG.load(Objects.requireNonNull(CheckMinecraft.class.getResourceAsStream("/config.properties")));
+
         initVersions();
         initSelectorMap();
 
@@ -38,6 +41,7 @@ public class CheckMinecraft {
             sb.append("echo \"branch_read=").append(pair.fromBranch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"decompiler=").append(CONFIG.get("gitmc.decompiler")).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
         } else {
             sb.append("echo \"version=").append(pair.lastSuccess()).append("\" >> $GITHUB_ENV\n");
@@ -48,6 +52,8 @@ public class CheckMinecraft {
         FileWriter writer = new FileWriter("output.sh");
         writer.write(sb.toString());
         writer.close();
+
+        recreateBuildGradle();
     }
 
     private static void initVersions() throws IOException {
@@ -134,7 +140,7 @@ public class CheckMinecraft {
 
         try {
             System.out.println("Start remapping " + version);
-            JsonObject versionData = JsonParser.parseReader(
+            versionData = JsonParser.parseReader(
                     new InputStreamReader(new URL(url).openStream())).getAsJsonObject();
             JsonObject downloads = versionData.getAsJsonObject("downloads");
 
@@ -159,5 +165,31 @@ public class CheckMinecraft {
         }
 
         return new FailCause(false, false);
+    }
+
+    private static void recreateBuildGradle() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("plugins {\n");
+        sb.append("    id 'java'\n");
+        sb.append("}\n");
+        sb.append("\n");
+        sb.append("repositories {\n");
+        sb.append("    mavenCentral()\n");
+        sb.append("    maven {\n");
+        sb.append("        name = \"minecraft\"\n");
+        sb.append("        url = \"https://libraries.minecraft.net/\"\n");
+        sb.append("    }\n");
+        sb.append("}\n");
+        sb.append("\n");
+        sb.append("dependencies {\n");
+        for (JsonElement element : versionData.getAsJsonArray("libraries")) {
+            JsonObject object = element.getAsJsonObject();
+            String name = object.get("name").getAsString();
+            sb.append("    implementation '").append(name).append("'\n");
+        }
+        sb.append("}\n");
+        try (FileWriter writer = new FileWriter("gen-build.gradle")) {
+            writer.write(sb.toString());
+        }
     }
 }
