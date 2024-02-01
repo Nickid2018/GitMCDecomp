@@ -113,8 +113,8 @@ jobs:
           unzip -q -o remapped.jar -x '*.class' -d write/src/main/resources
           cd write/src/main/resources
           for i in `find . -name "*.png" -type f`; do
-            local sha1=`sha1sum $i | awk '{print $1}'`
-            echo $i >> png-list.txt
+            sha1=`sha1sum $i | awk '{print $1}'`
+            echo $i $sha1 >> png-list.txt
             rm $i
           done
 
