@@ -117,8 +117,12 @@ jobs:
             echo $i $sha1 >> png-list.txt
             rm $i
           done
-          rm ./**/*.bin
-          rm ./**/*.zip
+          for i in `find . -name "*.bin" -type f`; do
+            rm $i
+          done
+          for i in `find . -name "*.zip" -type f`; do
+            rm $i
+          done
 
       - name: Convert NBT to SNBT (Old Server)
         if: env.fail == 'false' && env.new_server == 'false'
@@ -126,7 +130,10 @@ jobs:
           mkdir tempServer
           cd tempServer
           java -cp ../server.jar net.minecraft.data.Main --dev --input ../write/src/main/resources --output ../write/src/main/resources
-          rm ../write/src/main/resources/**/*.nbt
+          cd ../write/src/main/resources
+          for i in `find . -name "*.nbt" -type f`; do
+            rm $i
+          done
 
       - name: Convert NBT to SNBT (New Server)
         if: env.fail == 'false' && env.new_server == 'true'
@@ -134,7 +141,10 @@ jobs:
           mkdir tempServer
           cd tempServer
           java -DbundlerMainClass=net.minecraft.data.Main -jar ../server.jar --dev --input ../write/src/main/resources --output ../write/src/main/resources
-          rm ../write/src/main/resources/**/*.nbt
+          cd ../write/src/main/resources
+          for i in `find . -name "*.nbt" -type f`; do
+            rm $i
+          done
 
       - name: Move Build Gradle
         if: env.fail == 'false'
