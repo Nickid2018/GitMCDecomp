@@ -152,7 +152,7 @@ jobs:
         if: env.fail == 'false'
         run: |
           for i in `find . -name "*.snbt" -type f`; do
-            sed -i '/ *DataVersion:.*\n/d' $i
+            sed -i '/DataVersion/d' $i
           done
 
       - name: Move Build Gradle
