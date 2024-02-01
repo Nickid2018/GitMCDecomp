@@ -148,6 +148,13 @@ jobs:
             rm $i
           done
 
+      - name: Post Process SNBT
+        if: env.fail == 'false'
+        run: |
+          for i in `find . -name "*.snbt" -type f`; do
+            sed -i '/ *DataVersion:.*\n/d' $i
+          done
+
       - name: Move Build Gradle
         if: env.fail == 'false'
         run: |
