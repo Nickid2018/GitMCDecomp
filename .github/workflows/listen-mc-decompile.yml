@@ -86,16 +86,18 @@ jobs:
         if: env.fail == 'false'
         run: |
           cd write
-          rm -rf net com
+          if [ -d "src/main/java" ]; then
+            rm -rf src/main/java/*
+          fi
           cd ..
 
       - name: Decompile Minecraft file (CFR)
         if: env.fail == 'false' && env.decompiler == 'cfr'
-        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write --comments false remapped.jar
+        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write/src/main/java --comments false remapped.jar
 
       - name: Decompile Minecraft file (Fernflower)
         if: env.fail == 'false' && env.decompiler == 'fernflower'
-        run: java -cp build/libs/gitmc.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=1 remapped.jar write
+        run: java -cp build/libs/gitmc.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=1 remapped.jar write/src/main/java
 
       - name: Move Build Gradle
         if: env.fail == 'false'
