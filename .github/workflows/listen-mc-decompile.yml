@@ -128,24 +128,13 @@ jobs:
             rm $i
           done
 
-      - name: Convert NBT to SNBT (Old Server)
-        if: env.fail == 'false' && env.new_server == 'false'
-        run: |
-          mkdir tempServer
-          cd tempServer
-          java -cp ../server.jar net.minecraft.data.Main --dev --input ../write/src/main/resources --output snbt
-          cp -r snbt/* ../write/src/main/resources
-          cd ../write/src/main/resources
-          for i in `find . -name "*.nbt" -type f`; do
-            rm $i
-          done
-
-      - name: Convert NBT to SNBT (New Server)
+      - name: Convert NBT to SNBT
         if: env.fail == 'false' && env.new_server == 'true'
         run: |
           mkdir tempServer
           cd tempServer
-          java -DbundlerMainClass=net.minecraft.data.Main -jar ../server.jar --dev --input ../write/src/main/resources --output snbt
+          wget https://piston-data.mojang.com/v1/objects/8dd1a28015f51b1803213892b50b7b4fc76e594d/server.jar
+          java -DbundlerMainClass=net.minecraft.data.Main -jar server.jar --dev --input ../write/src/main/resources --output snbt
           cp -r snbt/* ../write/src/main/resources
           cd ../write/src/main/resources
           for i in `find . -name "*.nbt" -type f`; do

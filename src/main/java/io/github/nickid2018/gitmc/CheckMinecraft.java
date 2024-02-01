@@ -152,10 +152,8 @@ public class CheckMinecraft {
 
             String clientURL = downloads.getAsJsonObject("client").get("url").getAsString();
             String mappingURL = downloads.getAsJsonObject("client_mappings").get("url").getAsString();
-            String serverURL = downloads.getAsJsonObject("server").get("url").getAsString();
 
             IOUtils.copy(new URL(clientURL), new File("client.jar"));
-            IOUtils.copy(new URL(serverURL), new File("server.jar"));
             IOUtils.copy(new URL(mappingURL), new File("mapping.txt"));
 
             try (ZipFile file = new ZipFile(new File("client.jar"))) {
