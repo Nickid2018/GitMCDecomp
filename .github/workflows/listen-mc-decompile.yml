@@ -89,6 +89,7 @@ jobs:
           if [ -d "src/main/java" ]; then
             rm -rf src/main/java/*
           fi
+          mkdir -p src/main/java
           cd ..
 
       - name: Decompile Minecraft file (CFR)
