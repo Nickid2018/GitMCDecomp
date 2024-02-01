@@ -20,8 +20,10 @@ public class MethodRemapperFix extends MethodRemapper {
             super.visitLocalVariable(name, descriptor, signature, start, end, index);
             return;
         }
-        if (METHOD_RENAMER == VarRenameMethod.DECOMPILER)
+        if (METHOD_RENAMER == VarRenameMethod.DECOMPILER) {
+            super.visitLocalVariable(null, descriptor, signature, start, end, index);
             return;
+        }
         String nameReplaced = name.replace("\u2603", "var")
                 .replace("$$", "var")
                 .replace("â˜ƒ", "var");
