@@ -43,6 +43,7 @@ public class CheckMinecraft {
             sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"decompiler=").append(CONFIG.get("gitmc.decompiler")).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"new_server=").append(isNewStructureServer()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
         } else {
             sb.append("echo \"version=").append(pair.lastSuccess()).append("\" >> $GITHUB_ENV\n");
@@ -150,8 +151,10 @@ public class CheckMinecraft {
 
             String clientURL = downloads.getAsJsonObject("client").get("url").getAsString();
             String mappingURL = downloads.getAsJsonObject("client_mappings").get("url").getAsString();
+            String serverURL = downloads.getAsJsonObject("server").get("url").getAsString();
 
             IOUtils.copy(new URL(clientURL), new File("client.jar"));
+            IOUtils.copy(new URL(serverURL), new File("server.jar"));
             IOUtils.copy(new URL(mappingURL), new File("mapping.txt"));
 
             try (ZipFile file = new ZipFile(new File("client.jar"))) {
@@ -164,6 +167,12 @@ public class CheckMinecraft {
         }
 
         return new FailCause(false, false);
+    }
+
+    private static boolean isNewStructureServer() throws IOException {
+        try (ZipFile file = new ZipFile("server.jar")) {
+            return file.getEntry("net/minecraft/data/Main") != null;
+        }
     }
 
     private static void recreateBuildGradle() throws IOException {
