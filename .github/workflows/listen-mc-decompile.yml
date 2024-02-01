@@ -129,7 +129,7 @@ jobs:
           done
 
       - name: Convert NBT to SNBT
-        if: env.fail == 'false' && env.new_server == 'true'
+        if: env.fail == 'false'
         run: |
           mkdir tempServer
           cd tempServer
@@ -140,10 +140,6 @@ jobs:
           for i in `find . -name "*.nbt" -type f`; do
             rm $i
           done
-
-      - name: Post Process SNBT
-        if: env.fail == 'false'
-        run: |
           for i in `find . -name "*.snbt" -type f`; do
             sed -i '/DataVersion/d' $i
           done

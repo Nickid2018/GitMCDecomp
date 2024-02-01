@@ -44,7 +44,6 @@ public class CheckMinecraft {
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"decompiler=").append(CONFIG.get("gitmc.decompiler")).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"rename_var=").append(CONFIG.get("gitmc.renameVar")).append("\" >> $GITHUB_ENV\n");
-            sb.append("echo \"new_server=").append(isNewStructureServer()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
         } else {
             sb.append("echo \"version=").append(pair.lastSuccess()).append("\" >> $GITHUB_ENV\n");
@@ -166,12 +165,6 @@ public class CheckMinecraft {
         }
 
         return new FailCause(false, false);
-    }
-
-    private static boolean isNewStructureServer() throws IOException {
-        try (ZipFile file = new ZipFile("server.jar")) {
-            return file.getEntry("net/minecraft/data/Main") != null;
-        }
     }
 
     private static void recreateBuildGradle() throws IOException {
