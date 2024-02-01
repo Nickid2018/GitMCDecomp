@@ -96,9 +96,13 @@ jobs:
           mkdir -p src/main/resources
           cd ..
 
-      - name: Decompile Minecraft file (CFR)
-        if: env.fail == 'false' && env.decompiler == 'cfr'
+      - name: Decompile Minecraft file (CFR, No Rename)
+        if: env.fail == 'false' && env.decompiler == 'cfr' && env.rename_var != 'decompiler'
         run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write/src/main/java --comments false remapped.jar
+
+      - name: Decompile Minecraft file (CFR, Rename)
+        if: env.fail == 'false' && env.decompiler == 'cfr' && env.rename_var == 'decompiler'
+        run: java -cp build/libs/gitmc.jar org.benf.cfr.reader.Main --silent true --outputdir write/src/main/java --comments false --usenametable false remapped.jar
 
       - name: Decompile Minecraft file (Fernflower)
         if: env.fail == 'false' && env.decompiler == 'fernflower'

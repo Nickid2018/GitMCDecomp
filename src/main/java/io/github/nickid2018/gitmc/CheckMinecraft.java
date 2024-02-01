@@ -43,6 +43,7 @@ public class CheckMinecraft {
             sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"decompiler=").append(CONFIG.get("gitmc.decompiler")).append("\" >> $GITHUB_ENV\n");
+            sb.append("echo \"rename_var=").append(CONFIG.get("gitmc.renameVar")).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"new_server=").append(isNewStructureServer()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"fail=false\" >> $GITHUB_ENV\n");
         } else {
