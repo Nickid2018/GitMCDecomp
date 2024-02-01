@@ -38,6 +38,7 @@ public class CheckMinecraft {
         }
 
         if (!failCause.latest()) {
+            recreateBuildGradle();
             sb.append("echo \"branch_read=").append(pair.fromBranch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"branch_write=").append(pair.branch()).append("\" >> $GITHUB_ENV\n");
             sb.append("echo \"version=").append(pair.version()).append("\" >> $GITHUB_ENV\n");
@@ -52,8 +53,6 @@ public class CheckMinecraft {
         FileWriter writer = new FileWriter("output.sh");
         writer.write(sb.toString());
         writer.close();
-
-        recreateBuildGradle();
     }
 
     private static void initVersions() throws IOException {
