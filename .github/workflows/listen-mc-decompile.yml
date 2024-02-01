@@ -117,8 +117,8 @@ jobs:
             echo $i $sha1 >> png-list.txt
             rm $i
           done
-          rm *.bin
-          rm *.zip
+          rm ./**/*.bin
+          rm ./**/*.zip
 
       - name: Convert NBT to SNBT (Old Server)
         if: env.fail == 'false' && env.new_server == 'false'
