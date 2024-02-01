@@ -87,9 +87,13 @@ jobs:
         run: |
           cd write
           if [ -d "src/main/java" ]; then
-            rm -rf src/main/java/*
+            rm -rf src/main/java
           fi
           mkdir -p src/main/java
+          if [ -d "src/main/resources" ]; then
+            rm -rf src/main/resources
+          fi
+          mkdir -p src/main/resources
           cd ..
 
       - name: Decompile Minecraft file (CFR)
@@ -102,6 +106,17 @@ jobs:
           mkdir decompiled
           java -cp build/libs/gitmc.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=1 "-ind=    " -crp=1 -cps=1 -log=WARN remapped.jar decompiled
           unzip -q -o decompiled/remapped.jar '*.java' -d write/src/main/java
+
+      - name: Resource files
+        if: env.fail == 'false'
+        run: |
+          unzip -q -o remapped.jar -x '*.class' -d write/src/main/resources
+          cd write/src/main/resources
+          for i in `find . -name "*.png" -type f`; do
+            local sha1=`sha1sum $i | awk '{print $1}'`
+            echo $i >> png-list.txt
+            rm $i
+          done
 
       - name: Move Build Gradle
         if: env.fail == 'false'
@@ -144,7 +159,7 @@ jobs:
           git add .
           git commit -m ${{ env.version }} -a
           cd ..
-          
+
       - name: Push version store file
         if: env.fail == 'false'
         uses: ad-m/github-push-action@master
