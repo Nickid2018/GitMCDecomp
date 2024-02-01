@@ -21,7 +21,7 @@ public class MethodRemapperFix extends MethodRemapper {
             return;
         }
         if (METHOD_RENAMER == VarRenameMethod.DECOMPILER) {
-            super.visitLocalVariable(null, descriptor, signature, start, end, index);
+            super.visitLocalVariable("", descriptor, signature, start, end, index);
             return;
         }
         String nameReplaced = name.replace("\u2603", "var")
