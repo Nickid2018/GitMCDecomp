@@ -99,6 +99,7 @@ jobs:
       - name: Decompile Minecraft file (Fernflower)
         if: env.fail == 'false' && env.decompiler == 'fernflower'
         run: |
+          mkdir decompiled
           java -cp build/libs/gitmc.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=1 -ind=4 -crp=1 -cps=1 -log=WARN remapped.jar decompiled
           unzip -o decompiled/remapped.jar '*.java' -d write/src/main/java
 
