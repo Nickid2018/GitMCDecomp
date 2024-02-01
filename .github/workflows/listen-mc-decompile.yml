@@ -130,7 +130,7 @@ jobs:
           mkdir tempServer
           cd tempServer
           java -cp ../server.jar net.minecraft.data.Main --dev --input ../write/src/main/resources --output snbt
-          mv snbt/* ../write/src/main/resources
+          cp snbt/* ../write/src/main/resources
           cd ../write/src/main/resources
           for i in `find . -name "*.nbt" -type f`; do
             rm $i
@@ -142,7 +142,7 @@ jobs:
           mkdir tempServer
           cd tempServer
           java -DbundlerMainClass=net.minecraft.data.Main -jar ../server.jar --dev --input ../write/src/main/resources --output snbt
-          mv snbt/* ../write/src/main/resources
+          cp snbt/* ../write/src/main/resources
           cd ../write/src/main/resources
           for i in `find . -name "*.nbt" -type f`; do
             rm $i
