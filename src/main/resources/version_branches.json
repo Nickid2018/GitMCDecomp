@@ -29,5 +29,10 @@
     "type": "hang",
     "base": "23w13a",
     "versions": ["23w13a_or_b"]
+  },
+  "24w14potato": {
+    "type": "hang",
+    "base": "24w13a",
+    "versions": ["24w14potato"]
   }
 }
