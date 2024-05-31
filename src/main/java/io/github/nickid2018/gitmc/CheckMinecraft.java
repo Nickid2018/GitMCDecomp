@@ -174,11 +174,11 @@ public class CheckMinecraft {
         sb.append("}\n");
         sb.append("\n");
         sb.append("repositories {\n");
-        sb.append("    mavenCentral()\n");
         sb.append("    maven {\n");
         sb.append("        name = \"minecraft\"\n");
         sb.append("        url = \"https://libraries.minecraft.net/\"\n");
         sb.append("    }\n");
+        sb.append("    mavenCentral()\n");
         sb.append("}\n");
         sb.append("\n");
         sb.append("dependencies {\n");
