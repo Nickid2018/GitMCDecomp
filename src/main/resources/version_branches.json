@@ -38,7 +38,7 @@
   },
   "25w14craftmine": {
     "type": "hang",
-    "base": "1.21.5",
+    "base": "1.21.5-rc1",
     "versions": ["25w14craftmine"]
   }
 }
