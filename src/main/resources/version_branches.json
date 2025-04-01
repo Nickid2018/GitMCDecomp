@@ -35,5 +35,10 @@
     "type": "hang",
     "base": "24w12a",
     "versions": ["24w14potato"]
+  },
+  "25w14craftmine": {
+    "type": "hang",
+    "base": "1.21.5",
+    "versions": ["25w14craftmine"]
   }
 }
