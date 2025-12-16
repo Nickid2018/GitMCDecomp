@@ -144,19 +144,24 @@ public class CheckMinecraft {
                     new InputStreamReader(new URL(url).openStream())).getAsJsonObject();
             JsonObject downloads = versionData.getAsJsonObject("downloads");
 
-            if (!downloads.has("client_mappings")) {
+            if (!downloads.has("client_mappings") && version.matches("^\\d{2}w\\d{2}[a-z]$")) {
                 System.out.println(version + " has no mappings, skipped.");
                 return new FailCause(false, true);
             }
 
-            String clientURL = downloads.getAsJsonObject("client").get("url").getAsString();
-            String mappingURL = downloads.getAsJsonObject("client_mappings").get("url").getAsString();
+            if (downloads.has("client_mappings")) {
+                String clientURL = downloads.getAsJsonObject("client").get("url").getAsString();
+                String mappingURL = downloads.getAsJsonObject("client_mappings").get("url").getAsString();
 
-            IOUtils.copy(new URL(clientURL), new File("client.jar"));
-            IOUtils.copy(new URL(mappingURL), new File("mapping.txt"));
+                IOUtils.copy(new URL(clientURL), new File("client.jar"));
+                IOUtils.copy(new URL(mappingURL), new File("mapping.txt"));
 
-            try (ZipFile file = new ZipFile(new File("client.jar"))) {
-                FileProcessor.process(file, new File("mapping.txt"), new File("remapped.jar"));
+                try (ZipFile file = new ZipFile(new File("client.jar"))) {
+                    FileProcessor.process(file, new File("mapping.txt"), new File("remapped.jar"));
+                }
+            } else {
+                String clientURL = downloads.getAsJsonObject("client").get("url").getAsString();
+                IOUtils.copy(new URL(clientURL), new File("remapped.jar"));
             }
         } catch (Exception e) {
             System.out.println("Remap " + version + " failed");
