@@ -13,6 +13,8 @@ import java.util.*;
 import java.util.zip.ZipFile;
 
 public class CheckMinecraft {
+    private static final Set<String> NEW_APF_VERSIONS = Set.of("26w14a");
+
     private static MainSelector mainSelector;
     private static final Map<String, VersionSelector> selectorMap = new HashMap<>();
     private static final Map<String, VersionSelector> versionMap = new HashMap<>();
@@ -144,7 +146,7 @@ public class CheckMinecraft {
                     new InputStreamReader(new URL(url).openStream())).getAsJsonObject();
             JsonObject downloads = versionData.getAsJsonObject("downloads");
 
-            if (!downloads.has("client_mappings") && version.matches("^\\d{2}w\\d{2}[a-z]$")) {
+            if (!downloads.has("client_mappings") && version.matches("^\\d{2}w\\d{2}[a-z]$") && !NEW_APF_VERSIONS.contains(version)) {
                 System.out.println(version + " has no mappings, skipped.");
                 return new Result(false, true, false);
             }
