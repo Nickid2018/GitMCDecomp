@@ -6,7 +6,8 @@
     "22w13oneblockatatime",
     "23w13a_or_b",
     "24w14potato",
-    "25w14craftmine"
+    "25w14craftmine",
+    "26w14a"
   ],
   "master": {
     "type": "main",
@@ -41,5 +42,10 @@
     "type": "hang",
     "base": "1.21.5-rc1",
     "versions": ["25w14craftmine"]
+  },
+  "26w14a": {
+    "type": "hang",
+    "base": "26.1.1",
+    "versions": ["26w14a"]
   }
 }
