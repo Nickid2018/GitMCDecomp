@@ -7,7 +7,8 @@
     "23w13a_or_b",
     "24w14potato",
     "25w14craftmine",
-    "26w14a"
+    "26w14a",
+    "26.1.2"
   ],
   "master": {
     "type": "main",
@@ -47,5 +48,10 @@
     "type": "hang",
     "base": "26.1.1",
     "versions": ["26w14a"]
+  },
+  "26.1.2": {
+    "type": "hang",
+    "base": "26.1.1",
+    "versions": ["26.1.2-rc-1", "26.1.2"]
   }
 }
