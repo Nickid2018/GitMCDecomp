@@ -52,7 +52,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 25
 
       - name: Download Built JAR
         uses: actions/download-artifact@v4
