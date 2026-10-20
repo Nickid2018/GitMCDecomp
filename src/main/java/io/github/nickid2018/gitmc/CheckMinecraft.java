@@ -60,7 +60,7 @@ public class CheckMinecraft {
 
     private static void initVersions() throws IOException {
         versionManifest = JsonParser.parseReader(new InputStreamReader(
-                new URL("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json").openStream())).getAsJsonObject();
+                new URL("https://piston-meta.mojang.com/mc/game/version_manifest.json").openStream())).getAsJsonObject();
         versionManifest.getAsJsonArray("versions").forEach(
                 e -> {
                     JsonObject object = e.getAsJsonObject();
